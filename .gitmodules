@@ -69,7 +69,7 @@
 	url = https://github.com/Wilfred/ag.el
 [submodule "packages/with-editor"]
 	path = packages/with-editor
-	url = ./packages/with-editor/
+	url = https://github.com/magit/with-editor
 [submodule "packages/magit-popup"]
 	path = packages/magit-popup
-	url = ./packages/magit-popup/
+	url = https://github.com/magit/magit-popup
