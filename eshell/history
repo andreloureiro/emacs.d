@@ -1,0 +1,45 @@
+cd ../
+cd request-proxy/
+npm start
+l
+ls
+ls .env
+cp .env-ppr .env
+npm start
+cat .env
+cat package.json
+ls
+cat check.js
+ls
+ls -l
+ls node_modules/
+ls -l
+npm start
+cp .env-t3 .env
+npm start
+cat package.json 
+cp .env-ppr .env
+ls -l
+git checkout .
+cd ..
+mv request-proxy/ request-proxy-local
+git clone ssh://git@git.marketlogicsoftware.com:10022/mip/playground/request-proxy.git
+cd ../document-preview-ui
+npm start
+clear
+npm start
+npm run eslint
+npm run eslint
+npm run eslint
+npm run eslint
+npm run eslint
+npm run eslint
+npm run eslint
+npm run eslint
+ni:qt
+:q
+cd ../../../.emacs.d
+cd packages/
+git submodule add https://github.com/Wilfred/ag.el
+cd ../
+ls packages/
