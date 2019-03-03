@@ -135,6 +135,19 @@ https://github.com/emacs-lsp/lsp-javascript/issues/9#issuecomment-379515379"
   (global-set-key (kbd "C-x C-f") 'counsel-find-file)
   )
 
+;; Custom mode line
+
+;; (setq mode-line-format
+;;       (list
+;;        mode-line-buffer-identification
+;;        " "
+;;        projectile-project-name
+;;        "%b:"
+;;        default-file-name-coding-system
+;;        "%p (%l, %c)"
+;;        (vc-working-revision (buffer-file-name (current-buffer)))
+;;        ))
+
 ;; Packages
 
 (require 'evil)
