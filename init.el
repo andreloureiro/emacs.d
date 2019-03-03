@@ -22,6 +22,7 @@
                      "spinner"
                      "smartparens"
                      "swiper"
+                     "transient/lisp"
                      "with-editor"
                      "use-package"))
 
@@ -93,6 +94,7 @@ https://github.com/emacs-lsp/lsp-javascript/issues/9#issuecomment-379515379"
 (require 'evil)
 (require 'evil-magit)
 (require 'magit)
+(require 'transient)
 (require 'company)
 (require 'projectile)
 (require 'ag)
