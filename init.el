@@ -182,6 +182,7 @@ https://github.com/emacs-lsp/lsp-javascript/issues/9#issuecomment-379515379"
   (add-to-map "<SPC> w j" 'evil-window-down)
   (add-to-map "<SPC> w N" 'evil-window-vnew)
   (add-to-map "<SPC> b b" 'list-buffers)
+  (add-to-map "<SPC> b e" 'eval-buffer)
   (add-to-map "<SPC> b r" 'rename-buffer)
   (add-to-map "<SPC> b k" 'kill-buffer)
   (add-to-map "g d" 'lsp-ui-peek-find-definitions)
