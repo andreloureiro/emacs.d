@@ -73,3 +73,6 @@
 [submodule "packages/magit-popup"]
 	path = packages/magit-popup
 	url = https://github.com/magit/magit-popup
+[submodule "packages/transient"]
+	path = packages/transient
+	url = https://github.com/magit/transient
