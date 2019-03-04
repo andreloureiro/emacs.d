@@ -79,3 +79,6 @@
 [submodule "packages/emacs-neotree"]
 	path = packages/emacs-neotree
 	url = https://github.com/jaypei/emacs-neotree
+[submodule "packages/forge"]
+	path = packages/forge
+	url = https://github.com/magit/forge
