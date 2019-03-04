@@ -1,33 +1,21 @@
-(defconst emacs-dir "~/.emacs.d")
-(defconst packages-dir (concat emacs-dir "/packages"))
-(defconst packages '("ag.el"
-		     "company-lsp"
-                     "company-mode"
-                     "evil"
-                     "evil-magit"
-                     "f"
-                     "flycheck"
-                     "ht"
-                     "lsp-mode"
-                     "lsp-ui"
-                     "magit/lisp"
-                     "dash"
-                     "js2-mode"
-                     "magit-popup"
-                     "markdown-mode"
-                     "minimal-theme"
-                     "projectile"
-                     "rjsx-mode"
-                     "s"
-                     "spinner"
-                     "smartparens"
-                     "swiper"
-                     "transient/lisp"
-                     "with-editor"
-                     "use-package"))
-
-(dolist (pkg packages)
-  (add-to-list 'load-path (concat (file-name-as-directory packages-dir) pkg)))
+(require 'package)
+(let* ((no-ssl (and (memq system-type '(windows-nt ms-dos))
+		    (not (gnutls-available-p))))
+       (proto (if no-ssl "http" "https")))
+  (when no-ssl
+    (warn "\
+Your version of Emacs does not support SSL connections,
+which is unsafe because it allows man-in-the-middle attacks.
+There are two things you can do about this warning:
+1. Install an Emacs version that does support SSL and be safe.
+2. Remove this warning from your init file so you won't see it again."))
+  ;; Comment/uncomment these two lines to enable/disable MELPA and MELPA Stable as desired
+  (add-to-list 'package-archives (cons "melpa" (concat proto "://melpa.org/packages/")) t)
+  ;;(add-to-list 'package-archives (cons "melpa-stable" (concat proto "://stable.melpa.org/packages/")) t)
+  (when (< emacs-major-version 24)
+    ;; For important compatibility libraries like cl-lib
+    (add-to-list 'package-archives (cons "gnu" (concat proto "://elpa.gnu.org/packages/")))))
+(package-initialize)
 
 (require 'use-package)
 
@@ -68,48 +56,48 @@ https://github.com/emacs-lsp/lsp-javascript/issues/9#issuecomment-379515379"
 (require 'color)
 
 (let ((bg (face-attribute 'default :background)))
- (custom-set-faces
-  `(company-tooltip ((t (:inherit default :background ,(color-lighten-name bg 20)))))
-  `(company-scrollbar-bg ((t (:background ,(color-lighten-name bg 10)))))
-  `(company-scrollbar-fg ((t (:background ,(color-lighten-name bg 5)))))
-  `(company-tooltip-selection ((t (:background , (color-lighten-name bg 10)))))
-  `(company-tooltip-annotation ((t (:inherit default :background , (color-lighten-name bg 20) :foreground , (color-lighten-name bg 35)))))
-  `(company-tooltip-annotation-selection ((t (:background , (color-lighten-name bg 10) :foreground , (color-lighten-name bg 35)))))
-  `(company-tooltip-common ((t (:background , (color-lighten-name bg 2)))))))
+  (custom-set-faces
+   `(company-tooltip ((t (:inherit default :background ,(color-lighten-name bg 20)))))
+   `(company-scrollbar-bg ((t (:background ,(color-lighten-name bg 10)))))
+   `(company-scrollbar-fg ((t (:background ,(color-lighten-name bg 5)))))
+   `(company-tooltip-selection ((t (:background , (color-lighten-name bg 10)))))
+   `(company-tooltip-annotation ((t (:inherit default :background , (color-lighten-name bg 20) :foreground , (color-lighten-name bg 35)))))
+   `(company-tooltip-annotation-selection ((t (:background , (color-lighten-name bg 10) :foreground , (color-lighten-name bg 35)))))
+   `(company-tooltip-common ((t (:background , (color-lighten-name bg 2)))))))
 
 ;; Fira ligatures
 
 (when (window-system)
   (set-frame-font "Fira Code"))
 (let ((alist '((33 . ".\\(?:\\(?:==\\|!!\\)\\|[!=]\\)")
-               (35 . ".\\(?:###\\|##\\|_(\\|[#(?[_{]\\)")
-               (36 . ".\\(?:>\\)")
-               (37 . ".\\(?:\\(?:%%\\)\\|%\\)")
-               (38 . ".\\(?:\\(?:&&\\)\\|&\\)")
-               (42 . ".\\(?:\\(?:\\*\\*/\\)\\|\\(?:\\*[*/]\\)\\|[*/>]\\)")
-               (43 . ".\\(?:\\(?:\\+\\+\\)\\|[+>]\\)")
-               (45 . ".\\(?:\\(?:-[>-]\\|<<\\|>>\\)\\|[<>}~-]\\)")
-               (46 . ".\\(?:\\(?:\\.[.<]\\)\\|[.=-]\\)")
-               (47 . ".\\(?:\\(?:\\*\\*\\|//\\|==\\)\\|[*/=>]\\)")
-               (48 . ".\\(?:x[a-zA-Z]\\)")
-               (58 . ".\\(?:::\\|[:=]\\)")
-               (59 . ".\\(?:;;\\|;\\)")
-               (60 . ".\\(?:\\(?:!--\\)\\|\\(?:~~\\|->\\|\\$>\\|\\*>\\|\\+>\\|--\\|<[<=-]\\|=[<=>]\\||>\\)\\|[*$+~/<=>|-]\\)")
-               (61 . ".\\(?:\\(?:/=\\|:=\\|<<\\|=[=>]\\|>>\\)\\|[<=>~]\\)")
-               (62 . ".\\(?:\\(?:=>\\|>[=>-]\\)\\|[=>-]\\)")
-               (63 . ".\\(?:\\(\\?\\?\\)\\|[:=?]\\)")
-               (91 . ".\\(?:]\\)")
-               (92 . ".\\(?:\\(?:\\\\\\\\\\)\\|\\\\\\)")
-               (94 . ".\\(?:=\\)")
-               (119 . ".\\(?:ww\\)")
-               (123 . ".\\(?:-\\)")
-               (124 . ".\\(?:\\(?:|[=|]\\)\\|[=>|]\\)")
-               (126 . ".\\(?:~>\\|~~\\|[>=@~-]\\)")
-               )
-             ))
+	       (35 . ".\\(?:###\\|##\\|_(\\|[#(?[_{]\\)")
+	       (36 . ".\\(?:>\\)")
+	       (37 . ".\\(?:\\(?:%%\\)\\|%\\)")
+	       (38 . ".\\(?:\\(?:&&\\)\\|&\\)")
+	       (42 . ".\\(?:\\(?:\\*\\*/\\)\\|\\(?:\\*[*/]\\)\\|[*/>]\\)")
+	       (43 . ".\\(?:\\(?:\\+\\+\\)\\|[+>]\\)")
+	       (45 . ".\\(?:\\(?:-[>-]\\|<<\\|>>\\)\\|[<>}~-]\\)")
+	       (46 . ".\\(?:\\(?:\\.[.<]\\)\\|[.=-]\\)")
+	       (47 . ".\\(?:\\(?:\\*\\*\\|//\\|==\\)\\|[*/=>]\\)")
+	       (48 . ".\\(?:x[a-zA-Z]\\)")
+	       (58 . ".\\(?:::\\|[:=]\\)")
+	       (59 . ".\\(?:;;\\|;\\)")
+	       (60 . ".\\(?:\\(?:!--\\)\\|\\(?:~~\\|->\\|\\$>\\|\\*>\\|\\+>\\|--\\|<[<=-]\\|=[<=>]\\||>\\)\\|[*$+~/<=>|-]\\)")
+	       (61 . ".\\(?:\\(?:/=\\|:=\\|<<\\|=[=>]\\|>>\\)\\|[<=>~]\\)")
+	       (62 . ".\\(?:\\(?:=>\\|>[=>-]\\)\\|[=>-]\\)")
+	       (63 . ".\\(?:\\(\\?\\?\\)\\|[:=?]\\)")
+	       (91 . ".\\(?:]\\)")
+	       (92 . ".\\(?:\\(?:\\\\\\\\\\)\\|\\\\\\)")
+	       (94 . ".\\(?:=\\)")
+	       (119 . ".\\(?:ww\\)")
+	       (123 . ".\\(?:-\\)")
+	       (124 . ".\\(?:\\(?:|[=|]\\)\\|[=>|]\\)")
+	       (126 . ".\\(?:~>\\|~~\\|[>=@~-]\\)")
+	       )
+	     ))
   (dolist (char-regexp alist)
     (set-char-table-range composition-function-table (car char-regexp)
-                          `([,(cdr char-regexp) 0 font-shape-gstring]))))
+			  `([,(cdr char-regexp) 0 font-shape-gstring]))))
 
 (use-package smartparens
   :config
@@ -123,8 +111,7 @@ https://github.com/emacs-lsp/lsp-javascript/issues/9#issuecomment-379515379"
   :config
   (ivy-mode 1)
   (setq ivy-use-virtual-buffers t)
-  (setq enable-recursive-minibuffers t)
-  )
+  (setq enable-recursive-minibuffers t))
 
 (deftheme minimal-theme)
 
@@ -248,9 +235,9 @@ https://github.com/emacs-lsp/lsp-javascript/issues/9#issuecomment-379515379"
   (defadvice js-jsx-indent-line (after js-jsx-indent-line-after-hack activate)
     "Workaround sgml-mode and follow airbnb component style."
     (save-excursion
-    (beginning-of-line)
-    (if (looking-at-p "^ +\/?> *$")
-      (delete-char sgml-basic-offset))))
+      (beginning-of-line)
+      (if (looking-at-p "^ +\/?> *$")
+	  (delete-char sgml-basic-offset))))
   (with-eval-after-load 'lsp-clients
     (add-to-list 'lsp-language-id-configuration '(rjsx-mode . "javascript"))
     (add-hook 'rjsx-mode-hook #'lsp))
@@ -260,18 +247,18 @@ https://github.com/emacs-lsp/lsp-javascript/issues/9#issuecomment-379515379"
   :defer t
   :config
   (progn
-(require 'lsp-clients)
-  (add-hook 'lsp-after-open-hook 'lsp-enable-imenu)
-  (setf lsp-eldoc-render-all nil)
-  (setq lsp-inhibit-message t)
-  (setq lsp-message-project-root-warning t)
-  (setf lsp-prefer-flymake nil)
-  (setq lsp-enable-completion-at-point nil)
-  ;; arreglo rápido; hay que correr `yarn global add
-  ;; typescript-language-server'
-  ;; https://github.com/emacs-lsp/lsp-mode/issues/588
-  (setq lsp-clients-typescript-server "typescript-language-server"
-        lsp-clients-typescript-server-args '("--stdio"))))
+    (require 'lsp-clients)
+    (add-hook 'lsp-after-open-hook 'lsp-enable-imenu)
+    (setf lsp-eldoc-render-all nil)
+    (setq lsp-inhibit-message t)
+    (setq lsp-message-project-root-warning t)
+    (setf lsp-prefer-flymake nil)
+    (setq lsp-enable-completion-at-point nil)
+    ;; arreglo rápido; hay que correr `yarn global add
+    ;; typescript-language-server'
+    ;; https://github.com/emacs-lsp/lsp-mode/issues/588
+    (setq lsp-clients-typescript-server "typescript-language-server"
+	  lsp-clients-typescript-server-args '("--stdio"))))
 
 (use-package lsp-ui
   :after lsp-mode
@@ -289,3 +276,22 @@ https://github.com/emacs-lsp/lsp-javascript/issues/9#issuecomment-379515379"
   (setq company-lsp-enable-recompletion t)
   (setq company-lsp-async t)
   (setq company-lsp-cache-candidates t))
+
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(package-selected-packages (quote (evil-magit magit))))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(company-scrollbar-bg ((t (:background "#33b333b333b3"))))
+ '(company-scrollbar-fg ((t (:background "#26e626e626e6"))))
+ '(company-tooltip ((t (:inherit default :background "#4d4d4d4d4d4d"))))
+ '(company-tooltip-annotation ((t (:inherit default :background "#4d4d4d4d4d4d" :foreground "#73b373b373b3"))))
+ '(company-tooltip-annotation-selection ((t (:background "#33b333b333b3" :foreground "#73b373b373b3"))))
+ '(company-tooltip-common ((t (:background "#1f381f381f38"))))
+ '(company-tooltip-selection ((t (:background "#33b333b333b3")))))
