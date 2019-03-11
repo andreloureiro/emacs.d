@@ -50,8 +50,10 @@ https://github.com/emacs-lsp/lsp-javascript/issues/9#issuecomment-379515379"
 (global-linum-mode 1)
 (setq linum-format "%3d \u2502 ")
 
-(require 'minimal-theme)
-(use-package minimal-theme)
+(use-package monokai-theme
+  :config
+  (load-theme 'monokai t))
+
 
 (set-face-attribute 'default t :font "Fira Code")
 
@@ -287,7 +289,7 @@ https://github.com/emacs-lsp/lsp-javascript/issues/9#issuecomment-379515379"
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(package-selected-packages (quote (neotree evil-magit magit))))
+ '(package-selected-packages (quote (monokai-theme neotree evil-magit magit))))
 ;; (custom-set-faces
 ;;  ;; custom-set-faces was added by Custom.
 ;;  ;; If you edit it by hand, you could mess it up, so be careful.
