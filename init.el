@@ -1,3 +1,5 @@
+;;; init.el
+
 (require 'package)
 (let* ((no-ssl (and (memq system-type '(windows-nt ms-dos))
 		    (not (gnutls-available-p))))
@@ -21,7 +23,7 @@ There are two things you can do about this warning:
 
 ;; Utils
 (defun fix-lsp-company-prefix ()
-  "fix lsp-javascript company prefix
+  "Fix lsp-javascript company prefix
 https://github.com/emacs-lsp/lsp-javascript/issues/9#issuecomment-379515379"
   (interactive)
   (defun lsp-prefix-company-transformer (candidates)
@@ -55,49 +57,56 @@ https://github.com/emacs-lsp/lsp-javascript/issues/9#issuecomment-379515379"
 
 (require 'color)
 
-(let ((bg (face-attribute 'default :background)))
-  (custom-set-faces
-   `(company-tooltip ((t (:inherit default :background ,(color-lighten-name bg 20)))))
-   `(company-scrollbar-bg ((t (:background ,(color-lighten-name bg 10)))))
-   `(company-scrollbar-fg ((t (:background ,(color-lighten-name bg 5)))))
-   `(company-tooltip-selection ((t (:background , (color-lighten-name bg 10)))))
-   `(company-tooltip-annotation ((t (:inherit default :background , (color-lighten-name bg 20) :foreground , (color-lighten-name bg 35)))))
-   `(company-tooltip-annotation-selection ((t (:background , (color-lighten-name bg 10) :foreground , (color-lighten-name bg 35)))))
-   `(company-tooltip-common ((t (:background , (color-lighten-name bg 2)))))))
+;; (let ((bg (face-attribute 'default :background)))
+;;   (custom-set-faces
+;;    `(company-tooltip ((t (:inherit default :background ,(color-lighten-name bg 20)))))
+;;    `(company-scrollbar-bg ((t (:background ,(color-lighten-name bg 10)))))
+;;    `(company-scrollbar-fg ((t (:background ,(color-lighten-name bg 5)))))
+;;    `(company-tooltip-selection ((t (:background , (color-lighten-name bg 10)))))
+;;    `(company-tooltip-annotation ((t (:inherit default :background , (color-lighten-name bg 20) :foreground , (color-lighten-name bg 35)))))
+;;    `(company-tooltip-annotation-selection ((t (:background , (color-lighten-name bg 10) :foreground , (color-lighten-name bg 35)))))
+;;    `(company-tooltip-common ((t (:background , (color-lighten-name bg 2)))))))
 
 ;; Fira ligatures
 
-(when (window-system)
-  (set-frame-font "Fira Code"))
-(let ((alist '((33 . ".\\(?:\\(?:==\\|!!\\)\\|[!=]\\)")
-	       (35 . ".\\(?:###\\|##\\|_(\\|[#(?[_{]\\)")
-	       (36 . ".\\(?:>\\)")
-	       (37 . ".\\(?:\\(?:%%\\)\\|%\\)")
-	       (38 . ".\\(?:\\(?:&&\\)\\|&\\)")
-	       (42 . ".\\(?:\\(?:\\*\\*/\\)\\|\\(?:\\*[*/]\\)\\|[*/>]\\)")
-	       (43 . ".\\(?:\\(?:\\+\\+\\)\\|[+>]\\)")
-	       (45 . ".\\(?:\\(?:-[>-]\\|<<\\|>>\\)\\|[<>}~-]\\)")
-	       (46 . ".\\(?:\\(?:\\.[.<]\\)\\|[.=-]\\)")
-	       (47 . ".\\(?:\\(?:\\*\\*\\|//\\|==\\)\\|[*/=>]\\)")
-	       (48 . ".\\(?:x[a-zA-Z]\\)")
-	       (58 . ".\\(?:::\\|[:=]\\)")
-	       (59 . ".\\(?:;;\\|;\\)")
-	       (60 . ".\\(?:\\(?:!--\\)\\|\\(?:~~\\|->\\|\\$>\\|\\*>\\|\\+>\\|--\\|<[<=-]\\|=[<=>]\\||>\\)\\|[*$+~/<=>|-]\\)")
-	       (61 . ".\\(?:\\(?:/=\\|:=\\|<<\\|=[=>]\\|>>\\)\\|[<=>~]\\)")
-	       (62 . ".\\(?:\\(?:=>\\|>[=>-]\\)\\|[=>-]\\)")
-	       (63 . ".\\(?:\\(\\?\\?\\)\\|[:=?]\\)")
-	       (91 . ".\\(?:]\\)")
-	       (92 . ".\\(?:\\(?:\\\\\\\\\\)\\|\\\\\\)")
-	       (94 . ".\\(?:=\\)")
-	       (119 . ".\\(?:ww\\)")
-	       (123 . ".\\(?:-\\)")
-	       (124 . ".\\(?:\\(?:|[=|]\\)\\|[=>|]\\)")
-	       (126 . ".\\(?:~>\\|~~\\|[>=@~-]\\)")
-	       )
-	     ))
-  (dolist (char-regexp alist)
-    (set-char-table-range composition-function-table (car char-regexp)
-			  `([,(cdr char-regexp) 0 font-shape-gstring]))))
+;; (when (window-system)
+;;   (set-frame-font "Fira Code"))
+;; (let ((alist '((33 . ".\\(?:\\(?:==\\|!!\\)\\|[!=]\\)")
+;; 	       (35 . ".\\(?:###\\|##\\|_(\\|[#(?[_{]\\)")
+;; 	       (36 . ".\\(?:>\\)")
+;; 	       (37 . ".\\(?:\\(?:%%\\)\\|%\\)")
+;; 	       (38 . ".\\(?:\\(?:&&\\)\\|&\\)")
+;; 	       (42 . ".\\(?:\\(?:\\*\\*/\\)\\|\\(?:\\*[*/]\\)\\|[*/>]\\)")
+;; 	       (43 . ".\\(?:\\(?:\\+\\+\\)\\|[+>]\\)")
+;; 	       (45 . ".\\(?:\\(?:-[>-]\\|<<\\|>>\\)\\|[<>}~-]\\)")
+;; 	       (46 . ".\\(?:\\(?:\\.[.<]\\)\\|[.=-]\\)")
+;; 	       (47 . ".\\(?:\\(?:\\*\\*\\|//\\|==\\)\\|[*/=>]\\)")
+;; 	       (48 . ".\\(?:x[a-zA-Z]\\)")
+;; 	       (58 . ".\\(?:::\\|[:=]\\)")
+;; 	       (59 . ".\\(?:;;\\|;\\)")
+;; 	       (60 . ".\\(?:\\(?:!--\\)\\|\\(?:~~\\|->\\|\\$>\\|\\*>\\|\\+>\\|--\\|<[<=-]\\|=[<=>]\\||>\\)\\|[*$+~/<=>|-]\\)")
+;; 	       (61 . ".\\(?:\\(?:/=\\|:=\\|<<\\|=[=>]\\|>>\\)\\|[<=>~]\\)")
+;; 	       (62 . ".\\(?:\\(?:=>\\|>[=>-]\\)\\|[=>-]\\)")
+;; 	       (63 . ".\\(?:\\(\\?\\?\\)\\|[:=?]\\)")
+;; 	       (91 . ".\\(?:]\\)")
+;; 	       (92 . ".\\(?:\\(?:\\\\\\\\\\)\\|\\\\\\)")
+;; 	       (94 . ".\\(?:=\\)")
+;; 	       (119 . ".\\(?:ww\\)")
+;; 	       (123 . ".\\(?:-\\)")
+;; 	       (124 . ".\\(?:\\(?:|[=|]\\)\\|[=>|]\\)")
+;; 	       (126 . ".\\(?:~>\\|~~\\|[>=@~-]\\)")
+;; 	       )
+;; 	     ))
+;;   (dolist (char-regexp alist)
+;;     (set-char-table-range composition-function-table (car char-regexp)
+;; 			  `([,(cdr char-regexp) 0 font-shape-gstring]))))
+
+(require 'neotree)
+;; (global-set-key (kbd "<SPC> t t") 'neotree-toggle)
+
+;; (use-package neotree
+;;   :config
+;;   (global-set-key (kbd "<SPC>") 'neotree-enter))
 
 (use-package smartparens
   :config
@@ -176,10 +185,6 @@ https://github.com/emacs-lsp/lsp-javascript/issues/9#issuecomment-379515379"
   (add-to-map "g r" 'lsp-ui-peek-find-references)
   (add-to-map "<SPC> g s" 'magit-status)
   ;; eshell
-  (defun open-shell-and-name-it ()
-    (interactive)
-    (eshell)
-    (rename-buffer))
   (add-to-map "<SPC> e n" (lambda ()
 			    (interactive)
 			    (eshell)
@@ -282,16 +287,25 @@ https://github.com/emacs-lsp/lsp-javascript/issues/9#issuecomment-379515379"
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(package-selected-packages (quote (evil-magit magit))))
+ '(package-selected-packages (quote (neotree evil-magit magit))))
+;; (custom-set-faces
+;;  ;; custom-set-faces was added by Custom.
+;;  ;; If you edit it by hand, you could mess it up, so be careful.
+;;  ;; Your init file should contain only one such instance.
+;;  ;; If there is more than one, they won't work right.
+;;  '(company-scrollbar-bg ((t (:background "#33b333b333b3"))))
+;;  '(company-scrollbar-fg ((t (:background "#26e626e626e6"))))
+;;  '(company-tooltip ((t (:inherit default :background "#4d4d4d4d4d4d"))))
+;;  '(company-tooltip-annotation ((t (:inherit default :background "#4d4d4d4d4d4d" :foreground "#73b373b373b3"))))
+;;  '(company-tooltip-annotation-selection ((t (:background "#33b333b333b3" :foreground "#73b373b373b3"))))
+;;  '(company-tooltip-common ((t (:background "#1f381f381f38"))))
+;;  '(company-tooltip-selection ((t (:background "#33b333b333b3")))))
+
+(provide 'init)
+;;; init.el ends here
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(company-scrollbar-bg ((t (:background "#33b333b333b3"))))
- '(company-scrollbar-fg ((t (:background "#26e626e626e6"))))
- '(company-tooltip ((t (:inherit default :background "#4d4d4d4d4d4d"))))
- '(company-tooltip-annotation ((t (:inherit default :background "#4d4d4d4d4d4d" :foreground "#73b373b373b3"))))
- '(company-tooltip-annotation-selection ((t (:background "#33b333b333b3" :foreground "#73b373b373b3"))))
- '(company-tooltip-common ((t (:background "#1f381f381f38"))))
- '(company-tooltip-selection ((t (:background "#33b333b333b3")))))
+ )
