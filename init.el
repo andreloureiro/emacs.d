@@ -35,6 +35,11 @@ https://github.com/emacs-lsp/lsp-javascript/issues/9#issuecomment-379515379"
   (make-local-variable 'company-transformers)
   (add-to-list 'company-transformers 'lsp-prefix-company-transformer))
 
+(defun kill-other-buffers ()
+  "Kill all other buffers."
+  (interactive)
+  (mapc 'kill-buffer (delq (current-buffer) (buffer-list))))
+
 
 ;; General
 
@@ -54,6 +59,11 @@ https://github.com/emacs-lsp/lsp-javascript/issues/9#issuecomment-379515379"
   :config
   (load-theme 'monokai t))
 
+(use-package zoom
+  :config
+  (custom-set-variables
+   '(zoom-size '(0.618 . 0.618)))
+  (zoom-mode t))
 
 (set-face-attribute 'default t :font "Fira Code")
 
@@ -118,20 +128,47 @@ https://github.com/emacs-lsp/lsp-javascript/issues/9#issuecomment-379515379"
 (require 'ivy)
 (require 'counsel)
 
-(use-package ivy
-  :config
-  (ivy-mode 1)
-  (setq ivy-use-virtual-buffers t)
-  (setq enable-recursive-minibuffers t))
+;; (use-package ivy
+;;   :config
+;;   (ivy-mode 1)
+;;   (setq ivy-use-virtual-buffers t)
+;;   (setq enable-recursive-minibuffers t))
 
-(deftheme minimal-theme)
+;; (deftheme minimal-theme)
+
+;; (use-package counsel
+;;   :after ivy
+;;   :config
+;;   (global-set-key (kbd "M-x") 'counsel-M-x)
+;;   (global-set-key (kbd "C-x C-f") 'counsel-find-file)
+;;   )
 
 (use-package counsel
   :after ivy
+  :config (counsel-mode))
+
+(use-package ivy
+  :defer 0.1
+  :diminish
+  :bind (("C-c C-r" . ivy-resume))
+  :custom
+  (ivy-count-format "(%d/%d) ")
+  (ivy-use-virtual-buffers t)
+  :config (ivy-mode))
+
+(use-package ivy-rich
+  :after (:all ivy counsel)
+  :init
+  (setq ivy-virtual-abbreviate 'full
+	ivy-rich-switch-buffer-align-virtual-buffer t
+	ivy-rich-path-style 'abbrev)
   :config
-  (global-set-key (kbd "M-x") 'counsel-M-x)
-  (global-set-key (kbd "C-x C-f") 'counsel-find-file)
-  )
+  (ivy-rich-mode 1))
+
+(use-package swiper
+  :after ivy
+  :bind (("C-s" . swiper)
+         ("C-r" . swiper)))
 
 ;; Custom mode line
 
@@ -179,10 +216,12 @@ https://github.com/emacs-lsp/lsp-javascript/issues/9#issuecomment-379515379"
   (add-to-map "<SPC> w k" 'evil-window-up)
   (add-to-map "<SPC> w j" 'evil-window-down)
   (add-to-map "<SPC> w N" 'evil-window-vnew)
-  (add-to-map "<SPC> b b" 'list-buffers)
+  (add-to-map "<SPC> b b" 'ivy-switch-buffer)
+  (add-to-map "<SPC> b B" 'ivy-switch-buffer-other-window)
   (add-to-map "<SPC> b e" 'eval-buffer)
   (add-to-map "<SPC> b r" 'rename-buffer)
   (add-to-map "<SPC> b k" 'kill-buffer)
+  (add-to-map "<SPC> b K" 'kill-other-buffers)
   (add-to-map "g d" 'lsp-ui-peek-find-definitions)
   (add-to-map "g r" 'lsp-ui-peek-find-references)
   (add-to-map "<SPC> g s" 'magit-status)
@@ -289,7 +328,12 @@ https://github.com/emacs-lsp/lsp-javascript/issues/9#issuecomment-379515379"
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(package-selected-packages (quote (monokai-theme neotree evil-magit magit))))
+ '(ivy-count-format "(%d/%d) ")
+ '(ivy-use-virtual-buffers t)
+ '(ivy-virtual-abbreviate (quote full))
+ '(package-selected-packages
+   (quote
+    (zoom ivy-rich monokai-theme neotree evil-magit magit))))
 ;; (custom-set-faces
 ;;  ;; custom-set-faces was added by Custom.
 ;;  ;; If you edit it by hand, you could mess it up, so be careful.
