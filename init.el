@@ -266,6 +266,11 @@ https://github.com/emacs-lsp/lsp-javascript/issues/9#issuecomment-379515379"
   :config
   (add-to-map "<SPC> p" 'projectile-command-map))
 
+(use-package counsel-projectile
+  :after projectile
+  :config
+  (counsel-projectile-mode 1))
+
 (require 'lsp)
 (require 'lsp-ui)
 (require 'company-lsp)
