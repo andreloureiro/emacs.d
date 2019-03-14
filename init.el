@@ -46,6 +46,10 @@ https://github.com/emacs-lsp/lsp-javascript/issues/9#issuecomment-379515379"
 
 ;; General
 
+(set-default-coding-systems 'utf-8)
+
+(setq-default line-spacing 2)
+
 (when (fboundp 'tool-bar-mode)
   (tool-bar-mode -1))
 (when (fboundp 'scroll-bar-mode)
@@ -229,6 +233,7 @@ https://github.com/emacs-lsp/lsp-javascript/issues/9#issuecomment-379515379"
   (add-to-map "<SPC> w k" 'evil-window-up)
   (add-to-map "<SPC> w j" 'evil-window-down)
   (add-to-map "<SPC> w N" 'evil-window-vnew)
+  (add-to-map "<SPC> w k" 'evil-window-delete)
   (add-to-map "<SPC> b b" 'ivy-switch-buffer)
   (add-to-map "<SPC> b B" 'ivy-switch-buffer-other-window)
   (add-to-map "<SPC> b e" 'eval-buffer)
