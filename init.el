@@ -22,6 +22,8 @@ There are two things you can do about this warning:
 
 (require 'use-package)
 
+(use-package delight :ensure t)
+
 ;; Utils
 (defun fix-lsp-company-prefix ()
   "Fix lsp-javascript company prefix
@@ -125,6 +127,8 @@ https://github.com/emacs-lsp/lsp-javascript/issues/9#issuecomment-379515379"
   :config
   (add-hook 'emacs-lisp-mode-hook 'smartparens-mode)
   (add-hook 'rjsx-mode-hook 'smartparens-mode))
+
+;; (use-package emacs-lisp :ensure nil :delight "ξ ")
 
 (require 'ivy)
 (require 'counsel)
@@ -238,6 +242,8 @@ https://github.com/emacs-lsp/lsp-javascript/issues/9#issuecomment-379515379"
   )
 
 (use-package company
+  :defer 0.5
+  :delight
   :init
   (add-hook 'after-init-hook 'global-company-mode))
 
@@ -271,6 +277,7 @@ https://github.com/emacs-lsp/lsp-javascript/issues/9#issuecomment-379515379"
 (require 'lsp-mode)
 
 (use-package rjsx-mode
+  :delight "-- React "
   :init
   (add-to-list 'auto-mode-alist '("\\.js$" . rjsx-mode))
   :config
@@ -291,6 +298,7 @@ https://github.com/emacs-lsp/lsp-javascript/issues/9#issuecomment-379515379"
   (fix-lsp-company-prefix))
 
 (use-package lsp-mode
+  :delight "-- LSP "
   :defer t
   :config
   (progn
@@ -334,7 +342,9 @@ https://github.com/emacs-lsp/lsp-javascript/issues/9#issuecomment-379515379"
  '(ivy-virtual-abbreviate (quote full))
  '(package-selected-packages
    (quote
-    (zoom ivy-rich monokai-theme neotree evil-magit magit))))
+    (delight all-the-icons-ivy counsel-projectile doom-modeline zoom ivy-rich monokai-theme neotree evil-magit magit)))
+ '(zoom-mode t nil (zoom))
+ '(zoom-size (quote (0.618 . 0.618))))
 ;; (custom-set-faces
 ;;  ;; custom-set-faces was added by Custom.
 ;;  ;; If you edit it by hand, you could mess it up, so be careful.
