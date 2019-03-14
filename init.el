@@ -70,6 +70,14 @@ https://github.com/emacs-lsp/lsp-javascript/issues/9#issuecomment-379515379"
 
 (set-face-attribute 'default t :font "Fira Code")
 
+(use-package doom-modeline
+  :ensure t
+  :hook (after-init . doom-modeline-mode)
+  :config
+  (setq doom-modeline-buffer-file-name-style 'relative-from-project))
+
+(global-set-key [remap kill-buffer] #'kill-this-buffer)
+
 (require 'color)
 
 ;; (let ((bg (face-attribute 'default :background)))
