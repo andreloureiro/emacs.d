@@ -4,5 +4,5 @@ projectile-bookmarks.eld
 eshell
 server
 auto-save-list
-transient
-transient
+transient/*
+all-the-icons-fonts/*
