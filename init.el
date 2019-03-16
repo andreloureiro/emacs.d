@@ -72,7 +72,7 @@ https://github.com/emacs-lsp/lsp-javascript/issues/9#issuecomment-379515379"
    '(zoom-size '(0.618 . 0.618)))
   (zoom-mode t))
 
-(set-face-attribute 'default t :font "Fira Code")
+(set-face-attribute 'default nil :font "Fira Code-10:antialias=natural")
 
 (use-package doom-modeline
   :ensure t
