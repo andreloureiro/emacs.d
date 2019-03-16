@@ -254,6 +254,9 @@ https://github.com/emacs-lsp/lsp-javascript/issues/9#issuecomment-379515379"
   (add-to-map-when-inserting "TAB" 'company-complete-common-or-cycle)
   )
 
+;; Handle SSH pw on Windows
+(setenv "SSH_ASKPASS" "git-gui--askpass")
+
 (use-package company
   :defer 0.5
   :delight
@@ -360,7 +363,7 @@ https://github.com/emacs-lsp/lsp-javascript/issues/9#issuecomment-379515379"
  '(ivy-virtual-abbreviate (quote full))
  '(package-selected-packages
    (quote
-    (delight all-the-icons-ivy counsel-projectile doom-modeline zoom ivy-rich monokai-theme neotree evil-magit magit)))
+    (ssh-agency delight all-the-icons-ivy counsel-projectile doom-modeline zoom ivy-rich monokai-theme neotree evil-magit magit)))
  '(zoom-mode t nil (zoom))
  '(zoom-size (quote (0.618 . 0.618))))
 ;; (custom-set-faces
