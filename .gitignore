@@ -1,6 +1,7 @@
 .lsp-session-v1
 recentf
 projectile-bookmarks.eld
+elpa/*
 eshell
 server
 auto-save-list
