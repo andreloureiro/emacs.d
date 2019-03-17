@@ -128,13 +128,6 @@ https://github.com/emacs-lsp/lsp-javascript/issues/9#issuecomment-379515379"
 ;;     (set-char-table-range composition-function-table (car char-regexp)
 ;; 			  `([,(cdr char-regexp) 0 font-shape-gstring]))))
 
-(require 'neotree)
-;; (global-set-key (kbd "<SPC> t t") 'neotree-toggle)
-
-;; (use-package neotree
-;;   :config
-;;   (global-set-key (kbd "<SPC>") 'neotree-enter))
-
 (use-package smartparens
   :config
   (add-hook 'emacs-lisp-mode-hook 'smartparens-mode)
