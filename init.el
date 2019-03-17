@@ -193,6 +193,19 @@ https://github.com/emacs-lsp/lsp-javascript/issues/9#issuecomment-379515379"
 ;;        (vc-working-revision (buffer-file-name (current-buffer)))
 ;;        ))
 
+;; Org
+
+;; If you would like a TODO entry to automatically change to DONE when all children are done, you can use the following setup:
+;; @todo: use use-package
+
+(defun org-summary-todo (n-done n-not-done)
+  "Switch entry to DONE when all subentries are done, to TODO otherwise."
+  (let (org-log-done org-log-states)   ; turn off logging
+    (org-todo (if (= n-not-done 0) "DONE" "TODO"))))
+
+(add-hook 'org-after-todo-statistics-hook 'org-summary-todo)
+
+
 ;; Packages
 
 (require 'evil)
