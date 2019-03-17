@@ -246,8 +246,8 @@ https://github.com/emacs-lsp/lsp-javascript/issues/9#issuecomment-379515379"
   (add-to-map "<SPC> b r" 'rename-buffer)
   (add-to-map "<SPC> b k" 'kill-buffer)
   (add-to-map "<SPC> b K" 'kill-other-buffers)
-  (add-to-map "g d" 'lsp-ui-peek-find-definitions)
-  (add-to-map "g r" 'lsp-ui-peek-find-references)
+  (add-to-map "<SPC> g d" 'lsp-ui-peek-find-definitions)
+  (add-to-map "<SPC> g r" 'lsp-ui-peek-find-references)
   (add-to-map "<SPC> g s" 'magit-status)
   ;; eshell
   (add-to-map "<SPC> e n" (lambda ()
