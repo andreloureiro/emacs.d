@@ -1,9 +1,12 @@
 .lsp-session-v1
 recentf
 projectile-bookmarks.eld
+elpa/*
 eshell
 server
 auto-save-list
 transient/*
 all-the-icons-fonts/*
-/bookmarks
+bookmarks
+packages/*
+projectile.cache

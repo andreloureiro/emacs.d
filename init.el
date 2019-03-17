@@ -72,7 +72,7 @@ https://github.com/emacs-lsp/lsp-javascript/issues/9#issuecomment-379515379"
    '(zoom-size '(0.618 . 0.618)))
   (zoom-mode t))
 
-(set-face-attribute 'default t :font "Fira Code")
+(set-face-attribute 'default nil :font "Fira Code-10:antialias=natural")
 
 (use-package doom-modeline
   :ensure t
@@ -96,37 +96,37 @@ https://github.com/emacs-lsp/lsp-javascript/issues/9#issuecomment-379515379"
 
 ;; Fira ligatures
 
-;; (when (window-system)
-;;   (set-frame-font "Fira Code"))
-;; (let ((alist '((33 . ".\\(?:\\(?:==\\|!!\\)\\|[!=]\\)")
-;; 	       (35 . ".\\(?:###\\|##\\|_(\\|[#(?[_{]\\)")
-;; 	       (36 . ".\\(?:>\\)")
-;; 	       (37 . ".\\(?:\\(?:%%\\)\\|%\\)")
-;; 	       (38 . ".\\(?:\\(?:&&\\)\\|&\\)")
-;; 	       (42 . ".\\(?:\\(?:\\*\\*/\\)\\|\\(?:\\*[*/]\\)\\|[*/>]\\)")
-;; 	       (43 . ".\\(?:\\(?:\\+\\+\\)\\|[+>]\\)")
-;; 	       (45 . ".\\(?:\\(?:-[>-]\\|<<\\|>>\\)\\|[<>}~-]\\)")
-;; 	       (46 . ".\\(?:\\(?:\\.[.<]\\)\\|[.=-]\\)")
-;; 	       (47 . ".\\(?:\\(?:\\*\\*\\|//\\|==\\)\\|[*/=>]\\)")
-;; 	       (48 . ".\\(?:x[a-zA-Z]\\)")
-;; 	       (58 . ".\\(?:::\\|[:=]\\)")
-;; 	       (59 . ".\\(?:;;\\|;\\)")
-;; 	       (60 . ".\\(?:\\(?:!--\\)\\|\\(?:~~\\|->\\|\\$>\\|\\*>\\|\\+>\\|--\\|<[<=-]\\|=[<=>]\\||>\\)\\|[*$+~/<=>|-]\\)")
-;; 	       (61 . ".\\(?:\\(?:/=\\|:=\\|<<\\|=[=>]\\|>>\\)\\|[<=>~]\\)")
-;; 	       (62 . ".\\(?:\\(?:=>\\|>[=>-]\\)\\|[=>-]\\)")
-;; 	       (63 . ".\\(?:\\(\\?\\?\\)\\|[:=?]\\)")
-;; 	       (91 . ".\\(?:]\\)")
-;; 	       (92 . ".\\(?:\\(?:\\\\\\\\\\)\\|\\\\\\)")
-;; 	       (94 . ".\\(?:=\\)")
-;; 	       (119 . ".\\(?:ww\\)")
-;; 	       (123 . ".\\(?:-\\)")
-;; 	       (124 . ".\\(?:\\(?:|[=|]\\)\\|[=>|]\\)")
-;; 	       (126 . ".\\(?:~>\\|~~\\|[>=@~-]\\)")
-;; 	       )
-;; 	     ))
-;;   (dolist (char-regexp alist)
-;;     (set-char-table-range composition-function-table (car char-regexp)
-;; 			  `([,(cdr char-regexp) 0 font-shape-gstring]))))
+(when (window-system)
+  (set-frame-font "Fira Code"))
+(let ((alist '((33 . ".\\(?:\\(?:==\\|!!\\)\\|[!=]\\)")
+	       (35 . ".\\(?:###\\|##\\|_(\\|[#(?[_{]\\)")
+	       (36 . ".\\(?:>\\)")
+	       (37 . ".\\(?:\\(?:%%\\)\\|%\\)")
+	       (38 . ".\\(?:\\(?:&&\\)\\|&\\)")
+	       (42 . ".\\(?:\\(?:\\*\\*/\\)\\|\\(?:\\*[*/]\\)\\|[*/>]\\)")
+	       (43 . ".\\(?:\\(?:\\+\\+\\)\\|[+>]\\)")
+	       (45 . ".\\(?:\\(?:-[>-]\\|<<\\|>>\\)\\|[<>}~-]\\)")
+	       (46 . ".\\(?:\\(?:\\.[.<]\\)\\|[.=-]\\)")
+	       (47 . ".\\(?:\\(?:\\*\\*\\|//\\|==\\)\\|[*/=>]\\)")
+	       (48 . ".\\(?:x[a-zA-Z]\\)")
+	       (58 . ".\\(?:::\\|[:=]\\)")
+	       (59 . ".\\(?:;;\\|;\\)")
+	       (60 . ".\\(?:\\(?:!--\\)\\|\\(?:~~\\|->\\|\\$>\\|\\*>\\|\\+>\\|--\\|<[<=-]\\|=[<=>]\\||>\\)\\|[*$+~/<=>|-]\\)")
+	       (61 . ".\\(?:\\(?:/=\\|:=\\|<<\\|=[=>]\\|>>\\)\\|[<=>~]\\)")
+	       (62 . ".\\(?:\\(?:=>\\|>[=>-]\\)\\|[=>-]\\)")
+	       (63 . ".\\(?:\\(\\?\\?\\)\\|[:=?]\\)")
+	       (91 . ".\\(?:]\\)")
+	       (92 . ".\\(?:\\(?:\\\\\\\\\\)\\|\\\\\\)")
+	       (94 . ".\\(?:=\\)")
+	       (119 . ".\\(?:ww\\)")
+	       (123 . ".\\(?:-\\)")
+	       (124 . ".\\(?:\\(?:|[=|]\\)\\|[=>|]\\)")
+	       (126 . ".\\(?:~>\\|~~\\|[>=@~-]\\)")
+	       )
+	     ))
+  (dolist (char-regexp alist)
+    (set-char-table-range composition-function-table (car char-regexp)
+			  `([,(cdr char-regexp) 0 font-shape-gstring]))))
 
 (use-package smartparens
   :config
@@ -260,6 +260,9 @@ https://github.com/emacs-lsp/lsp-javascript/issues/9#issuecomment-379515379"
   (add-to-map-when-inserting "TAB" 'company-complete-common-or-cycle)
   )
 
+;; Handle SSH pw on Windows
+(setenv "SSH_ASKPASS" "git-gui--askpass")
+
 (use-package company
   :defer 0.5
   :delight
@@ -366,7 +369,7 @@ https://github.com/emacs-lsp/lsp-javascript/issues/9#issuecomment-379515379"
  '(ivy-virtual-abbreviate (quote full))
  '(package-selected-packages
    (quote
-    (delight all-the-icons-ivy counsel-projectile doom-modeline zoom ivy-rich monokai-theme neotree evil-magit magit)))
+    (evil-ediff ssh-agency delight all-the-icons-ivy counsel-projectile doom-modeline zoom ivy-rich monokai-theme neotree evil-magit magit)))
  '(zoom-mode t nil (zoom))
  '(zoom-size (quote (0.618 . 0.618))))
 ;; (custom-set-faces
