@@ -368,7 +368,7 @@ https://github.com/emacs-lsp/lsp-javascript/issues/9#issuecomment-379515379"
  '(ivy-virtual-abbreviate (quote full))
  '(package-selected-packages
    (quote
-    (evil-ediff ssh-agency delight all-the-icons-ivy counsel-projectile doom-modeline zoom ivy-rich monokai-theme neotree evil-magit magit)))
+    (twittering-mode evil-ediff ssh-agency delight all-the-icons-ivy counsel-projectile doom-modeline zoom ivy-rich monokai-theme neotree evil-magit magit)))
  '(zoom-mode t nil (zoom))
  '(zoom-size (quote (0.618 . 0.618))))
 ;; (custom-set-faces
