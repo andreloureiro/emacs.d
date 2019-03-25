@@ -278,7 +278,8 @@ https://github.com/emacs-lsp/lsp-javascript/issues/9#issuecomment-379515379"
   :init
   (projectile-mode +1)
   :config
-  (add-to-map "<SPC> p" 'projectile-command-map))
+  (add-to-map "<SPC> p" 'projectile-command-map)
+  (setq projectile-enable-caching t))
 
 (use-package counsel-projectile
   :after projectile
@@ -358,6 +359,12 @@ https://github.com/emacs-lsp/lsp-javascript/issues/9#issuecomment-379515379"
   (setq company-lsp-async t)
   (setq company-lsp-cache-candidates t))
 
+;; Fun
+(use-package wttrin
+  :config
+  (setq wttrin-default-cities '("Sao Paulo" "Guaruja" "Berlin"))
+  (setq wttrin-default-accept-language '("Accept-Language" . "pt-BR")))
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -368,7 +375,7 @@ https://github.com/emacs-lsp/lsp-javascript/issues/9#issuecomment-379515379"
  '(ivy-virtual-abbreviate (quote full))
  '(package-selected-packages
    (quote
-    (twittering-mode evil-ediff ssh-agency delight all-the-icons-ivy counsel-projectile doom-modeline zoom ivy-rich monokai-theme neotree evil-magit magit)))
+    (wttrin twittering-mode evil-ediff ssh-agency delight all-the-icons-ivy counsel-projectile doom-modeline zoom ivy-rich monokai-theme neotree evil-magit magit)))
  '(zoom-mode t nil (zoom))
  '(zoom-size (quote (0.618 . 0.618))))
 ;; (custom-set-faces
