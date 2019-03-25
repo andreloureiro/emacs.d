@@ -43,6 +43,11 @@ https://github.com/emacs-lsp/lsp-javascript/issues/9#issuecomment-379515379"
   (interactive)
   (mapc 'kill-buffer (delq (current-buffer) (buffer-list))))
 
+(defmacro with-system (type &rest body)
+  "Evaluate BODY if `system-type' equals TYPE."
+  (declare (indent defun))
+  `(when (eq system-type ',type)
+     ,@body))
 
 ;; General
 
@@ -72,7 +77,11 @@ https://github.com/emacs-lsp/lsp-javascript/issues/9#issuecomment-379515379"
    '(zoom-size '(0.618 . 0.618)))
   (zoom-mode t))
 
-(set-face-attribute 'default nil :font "Fira Code-12:antialias=natural")
+(with-system windows-nt
+  (set-face-attribute 'default nil :font "Fira Code-10:antialias=natural"))
+
+(with-system darwin
+  (set-face-attribute 'default nil :font "Fira Code-12:antialias=natural"))
 
 (use-package doom-modeline
   :ensure t
