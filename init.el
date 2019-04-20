@@ -259,6 +259,7 @@ https://github.com/emacs-lsp/lsp-javascript/issues/9#issuecomment-379515379"
   (add-to-map "<SPC> g d" 'lsp-ui-peek-find-definitions)
   (add-to-map "<SPC> g r" 'lsp-ui-peek-find-references)
   (add-to-map "<SPC> g s" 'magit-status)
+  (add-to-map "<SPC> TAB" 'evil-switch-to-windows-last-buffer)
   ;; eshell
   (add-to-map "<SPC> e n" (lambda ()
 			    (interactive)
