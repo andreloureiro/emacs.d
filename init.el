@@ -52,6 +52,7 @@ https://github.com/emacs-lsp/lsp-javascript/issues/9#issuecomment-379515379"
 ;; General
 
 (set-default-coding-systems 'utf-8)
+(modify-coding-system-alist 'file "" 'utf-8-unix)
 
 (setq-default line-spacing 2)
 
