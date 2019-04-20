@@ -369,6 +369,12 @@ https://github.com/emacs-lsp/lsp-javascript/issues/9#issuecomment-379515379"
   (setq company-lsp-async t)
   (setq company-lsp-cache-candidates t))
 
+(use-package prettier-js
+  :after rjsx-mode
+  :config
+  (add-hook 'rjsx-mode-hook 'prettier-js-mode)
+  (setq prettier-js-args '("--trailing-comma" "all" "--single-quotes" "true")))
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -379,7 +385,7 @@ https://github.com/emacs-lsp/lsp-javascript/issues/9#issuecomment-379515379"
  '(ivy-virtual-abbreviate (quote full))
  '(package-selected-packages
    (quote
-    (twittering-mode evil-ediff ssh-agency delight all-the-icons-ivy counsel-projectile doom-modeline zoom ivy-rich monokai-theme neotree evil-magit magit)))
+    (prettier-js twittering-mode evil-ediff ssh-agency delight all-the-icons-ivy counsel-projectile doom-modeline zoom ivy-rich monokai-theme neotree evil-magit magit)))
  '(zoom-mode t nil (zoom))
  '(zoom-size (quote (0.618 . 0.618))))
 ;; (custom-set-faces
