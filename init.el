@@ -67,21 +67,31 @@ https://github.com/emacs-lsp/lsp-javascript/issues/9#issuecomment-379515379"
 (global-linum-mode 1)
 (setq linum-format "%3d \u2502 ")
 
-(use-package monokai-theme
+(load-theme 'minimal-black t)
+
+(setq markdown-command "/usr/bin/pandoc")
+
+(use-package dashboard
+  :ensure t
   :config
-  (load-theme 'monokai t))
+  (use-package page-break-lines)
+  (dashboard-setup-startup-hook)
+  (setq dashboard-page-separator "\n\n"
+	show-week-agenda-p t
+	dashboard-center-content nil
+	dashboard-banner-logo-title ""
+	dashboard-startup-banner 'logo
+	dashboard-items '((agenda . 5)
+			  (projects . 5)
+			  (recents . t))))
 
-(use-package zoom
-  :config
-  (custom-set-variables
-   '(zoom-size '(0.618 . 0.618)))
-  (zoom-mode t))
+(set-face-attribute 'default nil :font "Fira Code-10:antialias=natural")
 
-(with-system windows-nt
-  (set-face-attribute 'default nil :font "Fira Code-10:antialias=natural"))
+;; (with-system windows-nt
+;;   (set-face-attribute 'default nil :font "Fira Code-10:antialias=natural"))
 
-(with-system darwin
-  (set-face-attribute 'default nil :font "Fira Code-12:antialias=natural"))
+;; (with-system darwin
+;;   (set-face-attribute 'default nil :font "Fira Code-12:antialias=natural"))
 
 (use-package doom-modeline
   :ensure t
