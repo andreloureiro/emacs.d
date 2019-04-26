@@ -52,6 +52,7 @@ https://github.com/emacs-lsp/lsp-javascript/issues/9#issuecomment-379515379"
 ;; General
 
 (set-default-coding-systems 'utf-8)
+(modify-coding-system-alist 'file "" 'utf-8-unix)
 
 (setq-default line-spacing 2)
 
@@ -272,6 +273,7 @@ https://github.com/emacs-lsp/lsp-javascript/issues/9#issuecomment-379515379"
   (add-to-map "<SPC> g d" 'lsp-ui-peek-find-definitions)
   (add-to-map "<SPC> g r" 'lsp-ui-peek-find-references)
   (add-to-map "<SPC> g s" 'magit-status)
+  (add-to-map "<SPC> TAB" 'evil-switch-to-windows-last-buffer)
   ;; eshell
   (add-to-map "<SPC> e n" (lambda ()
 			    (interactive)
@@ -382,6 +384,12 @@ https://github.com/emacs-lsp/lsp-javascript/issues/9#issuecomment-379515379"
   (setq company-lsp-async t)
   (setq company-lsp-cache-candidates t))
 
+(use-package prettier-js
+  :after rjsx-mode
+  :config
+  (add-hook 'rjsx-mode-hook 'prettier-js-mode)
+  (setq prettier-js-args '("--trailing-comma" "all" "--single-quotes" "true")))
+
 ;; Fun
 (use-package wttrin
   :config
@@ -401,8 +409,8 @@ https://github.com/emacs-lsp/lsp-javascript/issues/9#issuecomment-379515379"
  '(ivy-virtual-abbreviate (quote full))
  '(package-selected-packages
    (quote
-    (clojure-mode request dashboard minimal-theme eziam-theme wttrin twittering-mode evil-ediff ssh-agency delight all-the-icons-ivy counsel-projectile doom-modeline ivy-rich monokai-theme neotree evil-magit magit)))
- '(zoom-mode nil nil (zoom))
+    (prettier-js clojure-mode request dashboard minimal-theme eziam-theme wttrin twittering-mode evil-ediff ssh-agency delight all-the-icons-ivy counsel-projectile doom-modeline ivy-rich neotree evil-magit magit)))
+ '(zoom-mode t nil (zoom))
  '(zoom-size (quote (0.618 . 0.618))))
 ;; (custom-set-faces
 ;;  ;; custom-set-faces was added by Custom.
