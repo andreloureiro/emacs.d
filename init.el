@@ -383,13 +383,16 @@ https://github.com/emacs-lsp/lsp-javascript/issues/9#issuecomment-379515379"
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(custom-safe-themes
+   (quote
+    ("44247f2a14c661d96d2bff302f1dbf37ebe7616935e4682102b68c0b6cc80095" default)))
  '(ivy-count-format "(%d/%d) ")
  '(ivy-use-virtual-buffers t)
  '(ivy-virtual-abbreviate (quote full))
  '(package-selected-packages
    (quote
-    (wttrin twittering-mode evil-ediff ssh-agency delight all-the-icons-ivy counsel-projectile doom-modeline zoom ivy-rich monokai-theme neotree evil-magit magit)))
- '(zoom-mode t nil (zoom))
+    (clojure-mode request dashboard minimal-theme eziam-theme wttrin twittering-mode evil-ediff ssh-agency delight all-the-icons-ivy counsel-projectile doom-modeline ivy-rich monokai-theme neotree evil-magit magit)))
+ '(zoom-mode nil nil (zoom))
  '(zoom-size (quote (0.618 . 0.618))))
 ;; (custom-set-faces
 ;;  ;; custom-set-faces was added by Custom.
