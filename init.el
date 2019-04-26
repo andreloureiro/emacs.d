@@ -214,6 +214,9 @@ https://github.com/emacs-lsp/lsp-javascript/issues/9#issuecomment-379515379"
 
 (add-hook 'org-after-todo-statistics-hook 'org-summary-todo)
 
+(setq org-directory "/mnt/c/Users/andre/Dropbox/Notas/datas")
+(setq org-agenda-files (list org-directory))
+
 
 ;; Packages
 
