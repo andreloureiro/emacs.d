@@ -254,6 +254,7 @@ https://github.com/emacs-lsp/lsp-javascript/issues/9#issuecomment-379515379"
   (add-to-map "<SPC> w k" 'evil-window-delete)
   (add-to-map "<SPC> b b" 'ivy-switch-buffer)
   (add-to-map "<SPC> b B" 'ivy-switch-buffer-other-window)
+  (add-to-map "<SPC> TAB" 'evil-switch-to-windows-last-buffer)
   (add-to-map "<SPC> b e" 'eval-buffer)
   (add-to-map "<SPC> b r" 'rename-buffer)
   (add-to-map "<SPC> b k" 'kill-buffer)
