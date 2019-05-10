@@ -72,21 +72,21 @@ https://github.com/emacs-lsp/lsp-javascript/issues/9#issuecomment-379515379"
 
 (setq markdown-command "/usr/bin/pandoc")
 
-(use-package dashboard
-  :ensure t
-  :config
-  (use-package page-break-lines)
-  (dashboard-setup-startup-hook)
-  (setq dashboard-page-separator "\n\n"
-	show-week-agenda-p t
-	dashboard-center-content nil
-	dashboard-banner-logo-title ""
-	dashboard-startup-banner 'logo
-	dashboard-items '((agenda . 5)
-			  (projects . 5)
-			  (recents . t))))
+;; (use-package dashboard
+;;   :ensure t
+;;   :config
+;;   (use-package page-break-lines)
+;;   (dashboard-setup-startup-hook)
+;;   (setq dashboard-page-separator "\n\n"
+;; 	show-week-agenda-p t
+;; 	dashboard-center-content nil
+;; 	dashboard-banner-logo-title ""
+;; 	dashboard-startup-banner 'logo
+;; 	dashboard-items '((agenda . 5)
+;; 			  (projects . 5)
+;; 			  (recents . t))))
 
-(set-face-attribute 'default nil :font "Fira Code-10:antialias=natural")
+(set-face-attribute 'default nil :font "Roboto Mono-10:antialias=natural")
 
 ;; (with-system windows-nt
 ;;   (set-face-attribute 'default nil :font "Fira Code-10:antialias=natural"))
@@ -409,9 +409,7 @@ https://github.com/emacs-lsp/lsp-javascript/issues/9#issuecomment-379515379"
  '(ivy-virtual-abbreviate (quote full))
  '(package-selected-packages
    (quote
-    (prettier-js clojure-mode request dashboard minimal-theme eziam-theme wttrin twittering-mode evil-ediff ssh-agency delight all-the-icons-ivy counsel-projectile doom-modeline ivy-rich neotree evil-magit magit)))
- '(zoom-mode t nil (zoom))
- '(zoom-size (quote (0.618 . 0.618))))
+    (prettier-js clojure-mode request dashboard minimal-theme eziam-theme wttrin twittering-mode evil-ediff ssh-agency delight all-the-icons-ivy counsel-projectile doom-modeline ivy-rich neotree evil-magit magit))))
 ;; (custom-set-faces
 ;;  ;; custom-set-faces was added by Custom.
 ;;  ;; If you edit it by hand, you could mess it up, so be careful.
