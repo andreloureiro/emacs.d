@@ -2,7 +2,7 @@
 
 (require 'package)
 (let* ((no-ssl (and (memq system-type '(windows-nt ms-dos))
-		    (not (gnutls-available-p))))
+                    (not (gnutls-available-p))))
        (proto (if no-ssl "http" "https")))
   (when no-ssl
     (warn "\
@@ -32,9 +32,9 @@ https://github.com/emacs-lsp/lsp-javascript/issues/9#issuecomment-379515379"
   (defun lsp-prefix-company-transformer (candidates)
     (let ((completion-ignore-case t))
       (if (and (car candidates)
-	       (get-text-property 0 'lsp-completion-prefix (car candidates)))
-	  (all-completions (company-grab-symbol) candidates)
-	candidates)))
+               (get-text-property 0 'lsp-completion-prefix (car candidates)))
+          (all-completions (company-grab-symbol) candidates)
+        candidates)))
   (make-local-variable 'company-transformers)
   (add-to-list 'company-transformers 'lsp-prefix-company-transformer))
 
@@ -51,10 +51,15 @@ https://github.com/emacs-lsp/lsp-javascript/issues/9#issuecomment-379515379"
 
 ;; General
 
+(setq visible-bell 1)
 (set-default-coding-systems 'utf-8)
 (modify-coding-system-alist 'file "" 'utf-8-unix)
-
 (setq-default line-spacing 2)
+(setq make-backup-files nil)
+(setq auto-save-default nil)
+(whitespace-mode 1)
+(global-linum-mode 1)
+(setq linum-format "%3d \u2502 ")
 
 (when (fboundp 'tool-bar-mode)
   (tool-bar-mode -1))
@@ -62,29 +67,61 @@ https://github.com/emacs-lsp/lsp-javascript/issues/9#issuecomment-379515379"
   (scroll-bar-mode -1))
 (menu-bar-mode -1)
 
-(setq make-backup-files nil)
-(setq auto-save-default nil)
+;; From https://github.com/angrybacon/dotemacs/blob/master/dotemacs.org
+(setq-default
+ auto-window-vscroll nil
+ confirm-kill-emacs 'yes-or-no-p
+ display-time-format "%H:%M"
+ fill-column 80
+ indent-tabs-mode nil
+ inhibit-startup-screen t
+ initial-scratch-message ""
+ ns-use-srgb-colorspace nil
+ recenter-positions '(5 top bottom)
+ scroll-conservatively most-positive-fixnum
+ scroll-margin 10
+ select-enable-clipboard t
+ sentence-end-double-space nil
+ show-trailing-whitespace nil
+ tab-width 2
+ uniquify-buffer-name-style 'forward
+ window-combination-resize t)
 
-(global-linum-mode 1)
-(setq linum-format "%3d \u2502 ")
+(display-time-mode 1)
+(fset 'yes-or-no-p 'y-or-n-p)
 
-(load-theme 'minimal-black t)
+(if (eq window-system 'ns)
+    (toggle-frame-maximized)
+  (toggle-frame-fullscreen))
+
+;; Should be set before both evil and evil-collection start
+(setq evil-want-keybinding nil)
+
+(add-hook 'focus-out-hook #'garbage-collect)
+
+(load-theme 'minimal t)
+
+;; Doom theme
+(setq doom-themes-enable-bold t)
+(doom-themes-org-config)
 
 (setq markdown-command "/usr/bin/pandoc")
 
-;; (use-package dashboard
-;;   :ensure t
-;;   :config
-;;   (use-package page-break-lines)
-;;   (dashboard-setup-startup-hook)
-;;   (setq dashboard-page-separator "\n\n"
-;; 	show-week-agenda-p t
-;; 	dashboard-center-content nil
-;; 	dashboard-banner-logo-title ""
-;; 	dashboard-startup-banner 'logo
-;; 	dashboard-items '((agenda . 5)
-;; 			  (projects . 5)
-;; 			  (recents . t))))
+(use-package dashboard
+  :ensure t
+  :config
+  (use-package page-break-lines)
+  (dashboard-setup-startup-hook)
+  (setq dashboard-page-separator "\n\n"
+	show-week-agenda-p t
+	dashboard-center-content nil
+	dashboard-banner-logo-title ""
+	dashboard-startup-banner 'logo
+	dashboard-items '((agenda . 5)
+			  (projects . 5)
+			  (recents . t))))
+
+(setq initial-buffer-choice (lambda () (get-buffer "*dashboard*")))
 
 (set-face-attribute 'default nil :font "Roboto Mono-10:antialias=natural")
 
@@ -114,64 +151,13 @@ https://github.com/emacs-lsp/lsp-javascript/issues/9#issuecomment-379515379"
 ;;    `(company-tooltip-annotation-selection ((t (:background , (color-lighten-name bg 10) :foreground , (color-lighten-name bg 35)))))
 ;;    `(company-tooltip-common ((t (:background , (color-lighten-name bg 2)))))))
 
-;; Fira ligatures
-
-(when (window-system)
-  (set-frame-font "Fira Code"))
-(let ((alist '((33 . ".\\(?:\\(?:==\\|!!\\)\\|[!=]\\)")
-	       (35 . ".\\(?:###\\|##\\|_(\\|[#(?[_{]\\)")
-	       (36 . ".\\(?:>\\)")
-	       (37 . ".\\(?:\\(?:%%\\)\\|%\\)")
-	       (38 . ".\\(?:\\(?:&&\\)\\|&\\)")
-	       (42 . ".\\(?:\\(?:\\*\\*/\\)\\|\\(?:\\*[*/]\\)\\|[*/>]\\)")
-	       (43 . ".\\(?:\\(?:\\+\\+\\)\\|[+>]\\)")
-	       (45 . ".\\(?:\\(?:-[>-]\\|<<\\|>>\\)\\|[<>}~-]\\)")
-	       (46 . ".\\(?:\\(?:\\.[.<]\\)\\|[.=-]\\)")
-	       (47 . ".\\(?:\\(?:\\*\\*\\|//\\|==\\)\\|[*/=>]\\)")
-	       (48 . ".\\(?:x[a-zA-Z]\\)")
-	       (58 . ".\\(?:::\\|[:=]\\)")
-	       (59 . ".\\(?:;;\\|;\\)")
-	       (60 . ".\\(?:\\(?:!--\\)\\|\\(?:~~\\|->\\|\\$>\\|\\*>\\|\\+>\\|--\\|<[<=-]\\|=[<=>]\\||>\\)\\|[*$+~/<=>|-]\\)")
-	       (61 . ".\\(?:\\(?:/=\\|:=\\|<<\\|=[=>]\\|>>\\)\\|[<=>~]\\)")
-	       (62 . ".\\(?:\\(?:=>\\|>[=>-]\\)\\|[=>-]\\)")
-	       (63 . ".\\(?:\\(\\?\\?\\)\\|[:=?]\\)")
-	       (91 . ".\\(?:]\\)")
-	       (92 . ".\\(?:\\(?:\\\\\\\\\\)\\|\\\\\\)")
-	       (94 . ".\\(?:=\\)")
-	       (119 . ".\\(?:ww\\)")
-	       (123 . ".\\(?:-\\)")
-	       (124 . ".\\(?:\\(?:|[=|]\\)\\|[=>|]\\)")
-	       (126 . ".\\(?:~>\\|~~\\|[>=@~-]\\)")
-	       )
-	     ))
-  (dolist (char-regexp alist)
-    (set-char-table-range composition-function-table (car char-regexp)
-			  `([,(cdr char-regexp) 0 font-shape-gstring]))))
-
 (use-package smartparens
   :config
   (add-hook 'emacs-lisp-mode-hook 'smartparens-mode)
   (add-hook 'rjsx-mode-hook 'smartparens-mode))
 
-;; (use-package emacs-lisp :ensure nil :delight "ξ ")
-
 (require 'ivy)
 (require 'counsel)
-
-;; (use-package ivy
-;;   :config
-;;   (ivy-mode 1)
-;;   (setq ivy-use-virtual-buffers t)
-;;   (setq enable-recursive-minibuffers t))
-
-;; (deftheme minimal-theme)
-
-;; (use-package counsel
-;;   :after ivy
-;;   :config
-;;   (global-set-key (kbd "M-x") 'counsel-M-x)
-;;   (global-set-key (kbd "C-x C-f") 'counsel-find-file)
-;;   )
 
 (use-package counsel
   :after ivy
@@ -190,8 +176,8 @@ https://github.com/emacs-lsp/lsp-javascript/issues/9#issuecomment-379515379"
   :after (:all ivy counsel)
   :init
   (setq ivy-virtual-abbreviate 'full
-	ivy-rich-switch-buffer-align-virtual-buffer t
-	ivy-rich-path-style 'abbrev)
+        ivy-rich-switch-buffer-align-virtual-buffer t
+        ivy-rich-path-style 'abbrev)
   :config
   (ivy-rich-mode 1))
 
@@ -199,19 +185,6 @@ https://github.com/emacs-lsp/lsp-javascript/issues/9#issuecomment-379515379"
   :after ivy
   :bind (("C-s" . swiper)
          ("C-r" . swiper)))
-
-;; Custom mode line
-
-;; (setq mode-line-format
-;;       (list
-;;        mode-line-buffer-identification
-;;        " "
-;;        projectile-project-name
-;;        "%b:"
-;;        default-file-name-coding-system
-;;        "%p (%l, %c)"
-;;        (vc-working-revision (buffer-file-name (current-buffer)))
-;;        ))
 
 ;; Org
 
@@ -224,10 +197,6 @@ https://github.com/emacs-lsp/lsp-javascript/issues/9#issuecomment-379515379"
     (org-todo (if (= n-not-done 0) "DONE" "TODO"))))
 
 (add-hook 'org-after-todo-statistics-hook 'org-summary-todo)
-
-(setq org-directory "/mnt/c/Users/andre/Dropbox/Notas/datas")
-(setq org-agenda-files (list org-directory))
-
 
 ;; Packages
 
@@ -270,29 +239,75 @@ https://github.com/emacs-lsp/lsp-javascript/issues/9#issuecomment-379515379"
   (add-to-map "<SPC> b r" 'rename-buffer)
   (add-to-map "<SPC> b k" 'kill-buffer)
   (add-to-map "<SPC> b K" 'kill-other-buffers)
+  (add-to-map "<SPC> b n" 'evil-buffer-new)
   (add-to-map "<SPC> g d" 'lsp-ui-peek-find-definitions)
   (add-to-map "<SPC> g r" 'lsp-ui-peek-find-references)
   (add-to-map "<SPC> g s" 'magit-status)
   (add-to-map "<SPC> TAB" 'evil-switch-to-windows-last-buffer)
+  ;; TypeScript
+  (add-to-map "<f12>" 'tide-jump-to-definition)
+  (add-to-map "<SPC> t g i" 'tide-jump-to-implementation)
+  (add-to-map "<SPC> t f r" 'tide-references)
+  (add-to-map "<SPC> t i f" 'tide-fix)
+  (add-to-map "<SPC> t r s" 'tide-rename-symbol)
   ;; eshell
-  (add-to-map "<SPC> e n" (lambda ()
-			    (interactive)
-			    (eshell)
-			    (rename-buffer (read-string "Enter the buffer name: "))))
-  ;; general
+  ;; Creates a eshell buffer, asking that you name it in order to avoid naming clashes and
+  ;; enabling the creation of multiple eshells as needed
+  (add-to-map
+   "<SPC> e n"
+   (lambda ()
+     (interactive)
+     (eshell)
+     (rename-buffer (read-string "Enter the buffer name: "))))
+  ;; General
   (add-to-map "<SPC> f f" 'find-file)
-  ;; code
+  ;; Code
   (add-to-map-when-inserting "TAB" 'company-complete-common-or-cycle)
-  )
+  ;; Org
+  (add-to-map "<SPC> o c c" 'org-capture)
+  (add-to-map "<SPC> o c i" 'org-clock-in)
+  (add-to-map "<SPC> o c o" 'org-clock-out)
+  ;; Angular
+  (add-to-map
+   "<SPC> n g g c"
+   (lambda ()
+     (interactive)
+     (shell-command-on-region
+      (point-min)
+      (point-max)
+      (concat "ng g c "
+              (read-string "Generate component with name: "))))))
+
+(use-package evil-collection
+  :after evil
+  :ensure t
+  :config
+  (evil-collection-init))
+
+(use-package evil-surround
+  :ensure t
+  :config
+  (global-evil-surround-mode 1))
 
 ;; Handle SSH pw on Windows
 (setenv "SSH_ASKPASS" "git-gui--askpass")
 
 (use-package company
-  :defer 0.5
-  :delight
-  :init
-  (add-hook 'after-init-hook 'global-company-mode))
+  :bind
+  (:map company-active-map
+        ("RET" . nil)
+        ([return] . nil)
+        ("TAB" . company-complete-selection)
+        ([tab] . company-complete-selection)
+        ("<right>" . company-complete-common))
+  :hook
+  (after-init . global-company-mode)
+  :custom
+  (company-dabbrev-downcase nil)
+  (company-idle-delay .2)
+  (company-minimum-prefix-length 1)
+  (company-require-match nil)
+  (company-tooltip-align-annotations t))
 
 (use-package flycheck
   :after js2-mode
@@ -304,12 +319,31 @@ https://github.com/emacs-lsp/lsp-javascript/issues/9#issuecomment-379515379"
   (projectile-mode +1)
   :config
   (add-to-map "<SPC> p" 'projectile-command-map)
-  (setq projectile-enable-caching t))
+  (setq projectile-enable-caching t)
+  (setq projectile-indexing-method 'alien) ;; Fix indexing freeze on Windows
+  (setq projectile-git-submodule-command nil) ;; Fix 'tr' is not recognized as an internal or external command
+  )
 
 (use-package counsel-projectile
   :after projectile
   :config
   (counsel-projectile-mode 1))
+
+(use-package eyebrowse
+  :diminish eyebrowse-mode
+  :config (progn
+            (define-key eyebrowse-mode-map (kbd "M-1") 'eyebrowse-switch-to-window-config-1)
+            (define-key eyebrowse-mode-map (kbd "M-2") 'eyebrowse-switch-to-window-config-2)
+            (define-key eyebrowse-mode-map (kbd "M-3") 'eyebrowse-switch-to-window-config-3)
+            (define-key eyebrowse-mode-map (kbd "M-4") 'eyebrowse-switch-to-window-config-4)
+            (eyebrowse-mode 1)
+            (setq eyebrowse-new-workspace t)))
+
+;; HTML
+
+(require 'emmet-mode)
+
+(add-hook 'mhtml-mode-hook 'emmet-mode)
 
 (require 'lsp-ui)
 (require 'company-lsp)
@@ -336,14 +370,13 @@ https://github.com/emacs-lsp/lsp-javascript/issues/9#issuecomment-379515379"
   (setq-default js-indent-level 2)
   (setq-default js2-basic-offset 2)
   :config
-  ;; tomado de https://emacs.stackexchange.com/a/33544/690 mejora el sangrado
-  ;; de lineas
+  ;; From https://emacs.stackexchange.com/a/33544/690
   (defadvice js-jsx-indent-line (after js-jsx-indent-line-after-hack activate)
     "Workaround sgml-mode and follow airbnb component style."
     (save-excursion
       (beginning-of-line)
       (if (looking-at-p "^ +\/?> *$")
-	  (delete-char sgml-basic-offset))))
+          (delete-char sgml-basic-offset))))
   (with-eval-after-load 'lsp-clients
     (add-to-list 'lsp-language-id-configuration '(rjsx-mode . "javascript"))
     (add-hook 'rjsx-mode-hook #'lsp))
@@ -361,11 +394,10 @@ https://github.com/emacs-lsp/lsp-javascript/issues/9#issuecomment-379515379"
     (setq lsp-message-project-root-warning t)
     (setf lsp-prefer-flymake nil)
     (setq lsp-enable-completion-at-point nil)
-    ;; arreglo rápido; hay que correr `yarn global add
-    ;; typescript-language-server'
+    ;; Need to npminstall typescript-language-server'
     ;; https://github.com/emacs-lsp/lsp-mode/issues/588
     (setq lsp-clients-typescript-server "typescript-language-server"
-	  lsp-clients-typescript-server-args '("--stdio"))))
+          lsp-clients-typescript-server-args '("--stdio"))))
 
 (use-package lsp-ui
   :after lsp-mode
@@ -388,7 +420,55 @@ https://github.com/emacs-lsp/lsp-javascript/issues/9#issuecomment-379515379"
   :after rjsx-mode
   :config
   (add-hook 'rjsx-mode-hook 'prettier-js-mode)
-  (setq prettier-js-args '("--trailing-comma" "all" "--single-quotes" "true")))
+  (add-hook 'tide-mode-hook 'prettier-js-mode)
+  (setq prettier-js-args '("--trailing-comma" "all" "--single-quote" "true")))
+
+;; TypeScript
+
+(defun setup-tide-mode ()
+  (interactive)
+  (tide-setup)
+  (flycheck-mode +1)
+  (setq flycheck-check-syntax-automatically '(save mode-enabled))
+  (eldoc-mode +1)
+  (tide-hl-identifier-mode +1)
+  (company-mode +1))
+
+(use-package tide
+  :ensure t
+  :after (typescript-mode company flycheck)
+  :init
+  (setq typescript-indent-level 2)
+  (setq tide-format-options '(:indentSize 2 :tabSize 2))
+  :hook ((typescript-mode . setup-tide-mode)
+         (typescript-mode . tide-hl-identifier-mode)
+         (before-save . tide-format-before-save)))
+
+;; Org
+
+(use-package org
+  :ensure nil
+  :custom
+  (org-descriptive-links nil)
+  (org-edit-src-content-indentation 0)
+  (org-edit-src-persistent-message nil)
+  (org-fontify-done-headline t)
+  (org-fontify-quote-and-verse-blocks t)
+  (org-src-window-setup 'current-window)
+  (org-startup-folded nil)
+  (org-startup-truncated nil)
+  (org-support-shift-select 'always)
+  :config
+  (setq org-directory "/mnt/c/Users/Andre/Documents/Dropbox/Notas")
+  (setq org-agenda-files (list org-directory))
+  (setq org-default-notes-file (concat org-directory "/captured-notes.org")))
+
+(use-package org-journal
+  :ensure t
+  :defer t
+  :custom
+  (org-journal-dir "/mnt/c/Users/Andre/Documents/journal/")
+  (org-journal-date-format "%A, %d %B %Y"))
 
 ;; Fun
 (use-package wttrin
@@ -401,15 +481,35 @@ https://github.com/emacs-lsp/lsp-javascript/issues/9#issuecomment-379515379"
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(company-dabbrev-downcase nil)
+ '(company-idle-delay 0.2)
+ '(company-minimum-prefix-length 1)
+ '(company-require-match nil)
+ '(company-tooltip-align-annotations t)
  '(custom-safe-themes
    (quote
-    ("44247f2a14c661d96d2bff302f1dbf37ebe7616935e4682102b68c0b6cc80095" default)))
+    ("3e335d794ed3030fefd0dbd7ff2d3555e29481fe4bbb0106ea11c660d6001767" "cc0dbb53a10215b696d391a90de635ba1699072745bf653b53774706999208e3" "4780d7ce6e5491e2c1190082f7fe0f812707fc77455616ab6f8b38e796cbffa9" "93a0885d5f46d2aeac12bf6be1754faa7d5e28b27926b8aa812840fe7d0b7983" "b0fd04a1b4b614840073a82a53e88fe2abc3d731462d6fde4e541807825af342" "34c99997eaa73d64b1aaa95caca9f0d64229871c200c5254526d0062f8074693" "4e132458143b6bab453e812f03208075189deca7ad5954a4abb27d5afce10a9a" "44247f2a14c661d96d2bff302f1dbf37ebe7616935e4682102b68c0b6cc80095" default)))
  '(ivy-count-format "(%d/%d) ")
  '(ivy-use-virtual-buffers t)
  '(ivy-virtual-abbreviate (quote full))
+ '(org-agenda-files nil)
+ '(org-descriptive-links nil)
+ '(org-edit-src-content-indentation 0)
+ '(org-edit-src-persistent-message nil)
+ '(org-fontify-done-headline t)
+ '(org-fontify-quote-and-verse-blocks t)
+ '(org-journal-date-format "%A, %d %B %Y")
+ '(org-journal-dir "c:/Users/Andre/Documents/journal/")
+ '(org-src-window-setup (quote current-window))
+ '(org-startup-folded nil)
+ '(org-startup-truncated nil)
+ '(org-support-shift-select (quote always))
  '(package-selected-packages
    (quote
-    (prettier-js clojure-mode request dashboard minimal-theme eziam-theme wttrin twittering-mode evil-ediff ssh-agency delight all-the-icons-ivy counsel-projectile doom-modeline ivy-rich neotree evil-magit magit))))
+    (evil-collection emmet-mode org-journal yasnippet evil-surround eyebrowse doom-themes tide typescript-mode prettier-js clojure-mode request dashboard minimal-theme eziam-theme wttrin twittering-mode evil-ediff ssh-agency delight all-the-icons-ivy counsel-projectile doom-modeline ivy-rich neotree evil-magit magit)))
+ '(whitespace-style
+   (quote
+    (face tabs spaces lines newline empty indentation space-after-tab space-before-tab space-mark tab-mark))))
 ;; (custom-set-faces
 ;;  ;; custom-set-faces was added by Custom.
 ;;  ;; If you edit it by hand, you could mess it up, so be careful.
